@@ -1,0 +1,69 @@
+version: "3.9"
+
+services:
+
+  # ── FastAPI Backend ────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: garud_backend
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    environment:
+      # Override DATABASE_URL to use the postgres service (uncomment for PostgreSQL)
+      # DATABASE_URL: postgresql+psycopg2://garud_user:garud_password@postgres:5432/garud_db
+      ALLOWED_ORIGINS: "http://localhost,http://localhost:80"
+    volumes:
+      - apk_storage:/app/storage
+    ports:
+      - "8000:8000"   # Expose for direct access / debugging (remove in strict prod)
+    depends_on:
+      - postgres
+    networks:
+      - garud_net
+
+  # ── React Frontend (Nginx) ────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: garud_frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - garud_net
+
+  # ── PostgreSQL ─────────────────────────────────────────────────────────────
+  # Uncomment this block when you're ready to switch from SQLite to PostgreSQL.
+  # Then update DATABASE_URL in backend/.env.
+  postgres:
+    image: postgres:15-alpine
+    container_name: garud_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: garud_user
+      POSTGRES_PASSWORD: garud_password   # ⚠️ Change this before production!
+      POSTGRES_DB: garud_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"   # Remove in strict prod — only backend needs access
+    networks:
+      - garud_net
+
+# ── Volumes ──────────────────────────────────────────────────────────────────
+volumes:
+  apk_storage:
+    driver: local
+  postgres_data:
+    driver: local
+
+# ── Networks ──────────────────────────────────────────────────────────────────
+networks:
+  garud_net:
+    driver: bridge

@@ -1,0 +1,35 @@
+# GARUD-AI — Root .gitignore
+
+# --- Secrets ---
+**/.env
+!**/.env.example
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+*.log
+
+# --- SQLite ---
+*.db
+*.sqlite3
+
+# --- APK Storage (large binary files) ---
+backend/storage/
+
+# --- Node / Frontend ---
+frontend/node_modules/
+frontend/dist/
+
+# --- IDE ---
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

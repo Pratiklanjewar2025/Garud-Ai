@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-textMain font-sans antialiased selection:bg-primary selection:text-white;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-surface/80 backdrop-blur-md border border-borderSubtle shadow-lg;
+  }
+  
+  .glass-card {
+    @apply bg-surface/50 backdrop-blur-sm border border-borderSubtle/50 hover:border-primary/30 transition-all duration-300;
+  }
+  
+  .neon-text-primary {
+    text-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+  }
+  
+  .neon-text-danger {
+    text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+  }
+  
+  /* Scrollbar styles */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-borderSubtle rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-textMuted;
+  }
+}
