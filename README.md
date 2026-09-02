@@ -1,4 +1,4 @@
-# 🦅 GARUD-AI CyberShield
+#  GARUD-AI CyberShield
 **Advanced Agentic AI-Powered Android Malware Analysis & Fraud Detection Platform**
 
 ![Garud AI Banner](assets/banner.jpg)
